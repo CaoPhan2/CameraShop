@@ -6,20 +6,17 @@
     "configurations": [
         {
             "name": "camerashop",
-            "cwd": "camerashop",
             "request": "launch",
             "type": "dart"
         },
         {
             "name": "camerashop (profile mode)",
-            "cwd": "camerashop",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
             "name": "camerashop (release mode)",
-            "cwd": "camerashop",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
