@@ -1,3 +1,4 @@
+import 'package:camerashop/screens/transaction/shipment.dart';
 import 'package:flutter/material.dart';
 
 class Transactionitem extends StatelessWidget {
@@ -93,19 +94,21 @@ class Transactionitem extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              Container(
-                margin: EdgeInsets.only(right: 10),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xFF6AC8FF)
+              TextButton(
+                style: TextButton.styleFrom(
+                  backgroundColor: Color(0xFF6AC8FF),
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 1,horizontal: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)
+                  )
                 ),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Shipment()));
+                }, 
                 child: Text(
                   "View Tracking",
-                  style: TextStyle(
-                    color: Colors.white
-                  ),
-                ),
+                )
               ),
             ],
           )

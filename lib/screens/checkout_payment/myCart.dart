@@ -1,4 +1,5 @@
 import 'package:camerashop/model/Cart/Cart.dart';
+import 'package:camerashop/screens/checkout_payment/checkOutPage.dart';
 import 'package:camerashop/widget/checkout_payment/quantitySelector.dart';
 import 'package:flutter/material.dart';
 
@@ -277,7 +278,9 @@ class _MycartState extends State<Mycart> {
                   borderRadius: BorderRadius.circular(5)
                 )
               ),
-              onPressed: (){},
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Checkoutpage(),));
+              },
                 child: Text(
                 "Pay Now",
                 style: TextStyle(
