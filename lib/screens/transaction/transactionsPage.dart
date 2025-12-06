@@ -3,9 +3,20 @@ import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:camerashop/widget/transaction/transactionItem.dart';
 import 'package:flutter/material.dart';
 
-class Transactionspage extends StatelessWidget {
+class Transactionspage extends StatefulWidget {
   const Transactionspage({super.key});
 
+  @override
+  State<Transactionspage> createState() => _TransactionspageState();
+}
+
+class _TransactionspageState extends State<Transactionspage> {
+  String keyword ="";
+  void onSearch(String value){
+    setState(() {
+      keyword = value;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +25,7 @@ class Transactionspage extends StatelessWidget {
         elevation: 0,
         automaticallyImplyLeading: false,
         toolbarHeight: 100,
-        title: Appbar(),
+        title: Appbar(onSearch: onSearch,),
       ),
       body: Container(
         decoration: BoxDecoration(

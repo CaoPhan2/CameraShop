@@ -14,6 +14,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String keyword ="";
+  void onSearch(String value){
+    setState(() {
+      keyword = value;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         automaticallyImplyLeading: false,
         toolbarHeight: 100,
-        title: Appbar(),
+        title: Appbar(onSearch: onSearch,),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -44,9 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
             PromoOnGoing(),
             SizedBox(height: 20),
             Brands(),
-            SpecialPrice(),
+            SpecialPrice(keyword: keyword,),
             SizedBox(height: 10),
-            BestLens(),
+            BestLens(keyword: keyword),
           ],
         ),
       ),

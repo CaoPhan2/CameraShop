@@ -12,6 +12,12 @@ class Favoritepage extends StatefulWidget {
 }
 
 class _FavoritepageState extends State<Favoritepage> {
+  String keyword ="";
+  void onSearch(String value){
+    setState(() {
+      keyword = value;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +28,7 @@ class _FavoritepageState extends State<Favoritepage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         toolbarHeight: 100,
-        title: Appbar(),
+        title: Appbar(onSearch: onSearch,),
       ),
       body: Container(
         decoration: const BoxDecoration(

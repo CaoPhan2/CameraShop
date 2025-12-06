@@ -3,7 +3,8 @@ import 'package:camerashop/screens/checkout_payment/myCart.dart';
 import 'package:flutter/material.dart';
 
 class Appbar extends StatefulWidget {
-  const Appbar({super.key});
+  final Function(String) onSearch;
+  const Appbar({super.key, required this.onSearch});
 
   @override
   State<Appbar> createState() => _AppbarState();
@@ -48,6 +49,7 @@ class _AppbarState extends State<Appbar> {
                   child: Container(
                     height: 45,
                     child: TextField(
+                      onSubmitted: widget.onSearch,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,

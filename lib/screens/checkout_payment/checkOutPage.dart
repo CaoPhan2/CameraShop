@@ -1,16 +1,17 @@
+import 'package:camerashop/model/Cart/Cart.dart';
+import 'package:camerashop/screens/checkout_payment/receiptPage.dart';
 import 'package:camerashop/widget/checkout_payment/checkOutItem.dart';
 import 'package:flutter/material.dart';
 
 class Checkoutpage extends StatefulWidget {
   const Checkoutpage({super.key});
-
   @override
   State<Checkoutpage> createState() => _CheckoutpageState();
 }
 
 class _CheckoutpageState extends State<Checkoutpage> {
   bool _ischecked = false;
-
+  double total = Cart().items.fold(0, (sum, item) => sum + item.product.price * item.Quantity);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +26,15 @@ class _CheckoutpageState extends State<Checkoutpage> {
                 fontWeight: FontWeight.bold
               ),
             ),
-            IconButton(
-              onPressed: (){},
-              icon: Icon(Icons.more_horiz)
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey.shade200
+              ),
+              child: IconButton(
+                onPressed: (){},
+                icon: Icon(Icons.more_horiz)
+              ),
             )
           ],
         )
@@ -35,8 +42,15 @@ class _CheckoutpageState extends State<Checkoutpage> {
       body: ListView(
         padding: EdgeInsets.all(15),
         children: [
-          for(int i=0;i<3;i++)
-          Checkoutitem(),
+          for(var item in Cart().items)
+          Checkoutitem(product: item.product,quantity: item.Quantity,),
+          SizedBox(height: 20,),
+          Text(
+            "Total Price: \$${total.toStringAsFixed(2)}",
+            style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),
+          ),
           SizedBox(height: 20,),
           Text(
             "Order Information",
@@ -73,20 +87,20 @@ class _CheckoutpageState extends State<Checkoutpage> {
           ),
           SizedBox(height:10,),
           Text(
-            "Cameron Williamson",
+            "Cao Phan Nguyen",
             style: TextStyle(
               fontWeight: FontWeight.bold
             ),
           ),
           Row(
-            
+           
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20,),
                   Text(
-                    "Enail address",
+                    "Email address",
                     style: TextStyle(
                       color: Colors.grey[500]
                     ),
@@ -133,13 +147,14 @@ class _CheckoutpageState extends State<Checkoutpage> {
             "Please select your payment method",
             style: TextStyle(
               color: Colors.grey[500]
-              
+             
             ),
           ),
+          SizedBox(height:10,),
           Container(
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: Colors.grey[100],
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
@@ -155,7 +170,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
                     Icon(Icons.credit_score_outlined, color: Colors.orange,size: 16,),
                     SizedBox(width: 10,),
                     Checkbox(
-                      value: _ischecked, 
+                      value: _ischecked,
                       onChanged: (value){
                         setState(() {
                           _ischecked = value!;
@@ -165,11 +180,12 @@ class _CheckoutpageState extends State<Checkoutpage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)
                       ),
-                      
+                     
                     )
                   ],
                 ),
                 SizedBox(height: 10,),
+                Divider(),
                 Row(
                   children: [
                     Text(
@@ -181,7 +197,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
                     Icon(Icons.credit_score_outlined, color: Colors.orange,size: 16,),
                     SizedBox(width: 10,),
                     Checkbox(
-                      value: _ischecked, 
+                      value: _ischecked,
                       onChanged: (value){
                         setState(() {
                           _ischecked = value!;
@@ -191,7 +207,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)
                       ),
-                      
+                     
                     )
                   ],
                 )
@@ -210,7 +226,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
             "Please fill ou tthe form below. Enter your card account details",
             style: TextStyle(
               color: Colors.grey[500]
-              
+             
             ),
           ),
           SizedBox(height: 20,),
@@ -229,7 +245,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(5),
-                
+               
               )
             ),
           )
@@ -239,7 +255,9 @@ class _CheckoutpageState extends State<Checkoutpage> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
-            onPressed: (){}, 
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Receiptpage(total: total,),));
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF6AC8FF),
               foregroundColor: Colors.white,
@@ -248,8 +266,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
               ),
             ),
             child: Text(
-              "Pay Now",
-              
+              "Pay Now",  
             )
           ),
         ),

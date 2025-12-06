@@ -46,7 +46,7 @@ class _MycartState extends State<Mycart> {
                 color: Colors.grey[100],
               ),
               child: IconButton(
-                onPressed: (){}, 
+                onPressed: (){},
                 icon: Icon(Icons.edit)
               ),
             )
@@ -72,7 +72,7 @@ class _MycartState extends State<Mycart> {
                   Transform.scale(
                     scale: 0.8,
                     child: Checkbox(
-                      value: cartItem.isSelected, 
+                      value: cartItem.isSelected,
                       activeColor: Color(0xFF6AC8FF),
                       checkColor: Colors.white,
                       onChanged: (value) {
@@ -91,7 +91,7 @@ class _MycartState extends State<Mycart> {
                         image: NetworkImage(cartItem.product.images[0]),
                         fit: BoxFit.cover
                       ),
-                      
+                     
                     ),
                   ),
                   SizedBox(width: 15,),
@@ -123,7 +123,7 @@ class _MycartState extends State<Mycart> {
                         cartItem: cartItem,
                         onChanged: (){
                           setState(() {
-                            
+                           
                           });
                         },
                       ),
@@ -135,7 +135,7 @@ class _MycartState extends State<Mycart> {
                       setState(() {
                         Cart().removeCartItem(cartItem.product.id);
                       });
-                    }, 
+                    },
                     icon: Icon(
                       Icons.close,
                       size: 18,
@@ -159,7 +159,7 @@ class _MycartState extends State<Mycart> {
         ),
         child: Column(
           children: [
-            
+           
             Row(
               children: [
                 Text(
@@ -173,12 +173,12 @@ class _MycartState extends State<Mycart> {
                   ),
                 ),
                 IconButton(
-                  onPressed: (){}, 
+                  onPressed: (){},
                   icon: Icon(Icons.arrow_right)
                 )
               ],
             ),
-            
+           
             Row(
               children: [
                 Text(
@@ -250,7 +250,7 @@ class _MycartState extends State<Mycart> {
             Transform.scale(
               scale: 0.8,
               child: Checkbox(
-                value: isAllChecked, 
+                value: isAllChecked,
                 activeColor: Color(0xFF6AC8FF),
                 onChanged: (value){
                   setState(() {
@@ -284,7 +284,7 @@ class _MycartState extends State<Mycart> {
                 child: Text(
                 "Pay Now",
                 style: TextStyle(
-                  color: Colors.white,       
+                  color: Colors.white,      
                   fontWeight: FontWeight.bold,
                 )
               ),

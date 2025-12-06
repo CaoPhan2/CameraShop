@@ -1,25 +1,22 @@
 import 'package:camerashop/model/product/product.dart';
 import 'package:flutter/material.dart';
 
-class Checkoutitem extends StatelessWidget {
+class Receiptitem extends StatelessWidget {
   final Product product;
   final int quantity;
-  const Checkoutitem({super.key, required this.product, required this.quantity});
+  const Receiptitem({super.key, required this.product,required this.quantity});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 15),
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey.shade300))
-      ),
+      padding: EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
           Container(
-            width: 65,
-            height: 65,
+            width: 45,
+            height: 45,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: Colors.grey[100],
               borderRadius: BorderRadius.circular(10),
               image: DecorationImage(
                 image: NetworkImage(product.images[0]),
@@ -39,13 +36,6 @@ class Checkoutitem extends StatelessWidget {
               ),
               SizedBox(height: 5,),
               Text(
-                "\$${product.price}",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-              SizedBox(height: 5,),
-              Text(
                 "Quantity : $quantity",
                 style: TextStyle(
                   fontSize: 12,
@@ -53,7 +43,14 @@ class Checkoutitem extends StatelessWidget {
                 ),
               )
             ],
-          )
+          ),
+          Spacer(),
+          Text(
+            "\$${product.price}",
+            style: TextStyle(
+              fontWeight: FontWeight.bold
+            ),
+          ),
         ],
       ),
     );

@@ -43,7 +43,7 @@ class Shipment extends StatelessWidget {
               ),
               Spacer(),
               IconButton(
-                onPressed: (){}, 
+                onPressed: (){},
                 icon: Icon(Icons.copy,color: Color(0xFF6AC8FF),)
               )
             ],
@@ -429,7 +429,7 @@ class Shipment extends StatelessWidget {
                   side: BorderSide(color: Color(0xFF6AC8FF))
                 )
               ),
-              onPressed: (){}, 
+              onPressed: (){},
               child: Text(
                 "Complain",
                
@@ -447,7 +447,7 @@ class Shipment extends StatelessWidget {
                   side: BorderSide(color: Color(0xFF6AC8FF))
                 )
               ),
-              onPressed: (){}, 
+              onPressed: (){},
               child: Text(
                 "Complete"
               )
