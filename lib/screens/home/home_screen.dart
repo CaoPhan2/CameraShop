@@ -7,7 +7,8 @@ import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String accessToken;
+  const HomeScreen({super.key, required this.accessToken});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Bottomappbar(currentIndex: 0),
+      bottomNavigationBar: Bottomappbar(currentIndex: 0, token: widget.accessToken),
     );
   }
 }

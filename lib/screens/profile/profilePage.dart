@@ -1,10 +1,65 @@
+import 'dart:convert';
+
+import 'package:camerashop/screens/splash_login/signInPage.dart';
+import 'package:camerashop/screens/splash_login/splashPage.dart';
 import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:flutter/material.dart';
-
-class Profilepage extends StatelessWidget {
-  const Profilepage({super.key});
+import 'package:http/http.dart' as http;
+class Profilepage extends StatefulWidget {
+  final String accessToken;
+  const Profilepage({super.key, required this.accessToken});
 
   @override
+  State<Profilepage> createState() => _ProfilepageState();
+}
+
+class _ProfilepageState extends State<Profilepage> {
+  Map<String, dynamic>? userData;
+  bool _isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+    // Gọi hàm lấy dữ liệu ngay khi màn hình vừa mở
+    getUserData();
+  }
+  Future<void> getUserData() async {
+    final url = Uri.parse('https://dummyjson.com/auth/me');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization':
+              'Bearer ${widget.accessToken}', // Gửi token lên server xác thực
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Thành công: Cập nhật dữ liệu vào biến userData
+        setState(() {
+          userData = jsonDecode(response.body);
+          _isLoading = false;
+        });
+      } else {
+        // Thất bại (Token hết hạn hoặc lỗi server)
+        setState(() => _isLoading = false);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Lỗi tải dữ liệu: ${response.statusCode}')),
+          );
+        }
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Lỗi kết nối: $e')));
+      }
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:Color.fromARGB(255, 223, 242, 254),
@@ -41,7 +96,7 @@ class Profilepage extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,  
                     image: DecorationImage(
-                      image: AssetImage("assets/images/promo1.png"),
+                      image: NetworkImage(userData!["image"]),
                     )
                   ),
                 ),
@@ -50,7 +105,7 @@ class Profilepage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Cao Phan Nguyen",
+                      "${userData!['firstName']} ${userData!['lastName']}",
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold
@@ -58,7 +113,7 @@ class Profilepage extends StatelessWidget {
                     ),
                     SizedBox(height: 2,),
                     Text(
-                      "caophan2106@gmail.com",
+                      userData!["email"],
                       style: TextStyle(
                         fontSize: 12
                       ),
@@ -70,7 +125,11 @@ class Profilepage extends StatelessWidget {
           ],
         ),
       ),
-      body: Container(
+      body: _isLoading 
+      ? const Center(child: CircularProgressIndicator(),)
+      : userData == null
+        ?const Center(child: Text("Didn't load user information"),) 
+        : Container(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -101,8 +160,13 @@ class Profilepage extends StatelessWidget {
                 children: [
                   Icon(Icons.contact_emergency_outlined, size: 20,),
                   SizedBox(width: 10,),
-                  Text(
-                    "Contact & Verification", 
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Splashpage()));
+                    },
+                    child: Text(
+                      "Contact & Verification", 
+                    ),
                   ),
                   Spacer(),
                   Icon(Icons.arrow_forward_ios,size: 14,)
@@ -207,7 +271,8 @@ class Profilepage extends StatelessWidget {
           ]
           ),
       ),
-      bottomNavigationBar: Bottomappbar(currentIndex: 4,),
+
+      bottomNavigationBar: Bottomappbar(currentIndex: 4, token: widget.accessToken,),
     );
   }
 }

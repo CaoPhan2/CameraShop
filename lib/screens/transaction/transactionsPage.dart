@@ -4,7 +4,9 @@ import 'package:camerashop/widget/transaction/transactionItem.dart';
 import 'package:flutter/material.dart';
 
 class Transactionspage extends StatefulWidget {
-  const Transactionspage({super.key});
+  final String accessToken;
+
+  const Transactionspage({super.key, required this.accessToken});
 
   @override
   State<Transactionspage> createState() => _TransactionspageState();
@@ -144,7 +146,7 @@ class _TransactionspageState extends State<Transactionspage> {
           ],
         ),
       ),
-      bottomNavigationBar: Bottomappbar(currentIndex: 3),
+      bottomNavigationBar: Bottomappbar(currentIndex: 3, token: widget.accessToken,),
     );
   }
 }

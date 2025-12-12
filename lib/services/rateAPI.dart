@@ -10,7 +10,7 @@ class RateAPI {
       List jsonData = jsonDecode(response.body);
       return jsonData.map((item)=> Rate.fromJson(item)).toList();
     }else{
-      throw Exception("Failed to load products");
+      throw Exception("Failed to load rate");
     }
   }
 }

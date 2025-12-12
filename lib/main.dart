@@ -1,7 +1,4 @@
-import 'package:camerashop/screens/favorite/favoritePage.dart';
-import 'package:camerashop/screens/home/home_screen.dart';
-import 'package:camerashop/screens/profile/profilePage.dart';
-import 'package:camerashop/screens/transaction/transactionsPage.dart';
+import 'package:camerashop/screens/splash_login/signInPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,11 +17,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       routes:{
-      "/": (context)=> HomeScreen(),
-      "/favoritePage": (context) => Favoritepage(),
-      "/profilePage": (context)=> Profilepage(),
-      // "/scanPage": (context)=> Scanpage(),
-      "/transactionsPage":(context)=>Transactionspage(),
+      "/": (context)=> Signinpage(),
     },
     );
   }
