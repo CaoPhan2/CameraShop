@@ -1,8 +1,10 @@
+import 'package:camerashop/model/transaction/transaction.dart';
 import 'package:camerashop/screens/transaction/shipment.dart';
 import 'package:flutter/material.dart';
 
 class Transactionitem extends StatelessWidget {
-  const Transactionitem({super.key});
+  Transaction transaction;
+  Transactionitem({super.key, required this.transaction});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class Transactionitem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.grey[200],
                     image: DecorationImage(
-                      image: AssetImage("assets/images/promo1.png"),
+                      image: NetworkImage(transaction.productImage),
                       fit: BoxFit.cover
                     )
                   ),
@@ -41,14 +43,14 @@ class Transactionitem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Camera name",
+                      transaction.productName,
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),
                     ),
                     SizedBox(height: 5,),
                     Text(
-                      "\$3343",
+                      "\$${transaction.price}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),
@@ -60,12 +62,12 @@ class Transactionitem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 3,horizontal: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: const Color.fromARGB(255, 204, 252, 189)
+                    color: statusBgColor(transaction.status),
                   ),
                   child: Text(
-                    "Shipping",
+                    transaction.status,
                     style: TextStyle(
-                      color: const Color.fromARGB(255, 112, 211, 85),
+                      color: statusTextColor(transaction.status),
                       fontSize: 12
                     ),
                   ),
@@ -80,13 +82,13 @@ class Transactionitem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "No. Order: L06567774NJH",
+                    "No. Order: ${transaction.orderId}",
                     style: TextStyle(
                       fontSize: 13
                     ),
                   ),
                   Text(
-                    "Qty: 1",
+                    "Qty:${transaction.quantity}",
                     style: TextStyle(
                       fontSize: 13
                     ),
@@ -115,5 +117,35 @@ class Transactionitem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+Color statusBgColor(String status) {
+  switch (status.toLowerCase()) {
+    case 'processing':
+      return const Color(0xFFFFF3CD); // vàng nhạt
+    case 'shipping':
+      return const Color(0xFFE7F1FF); // xanh dương nhạt
+    case 'completed':
+      return const Color(0xFFE6F4EA); // xanh lá nhạt
+    case 'cancelled':
+      return const Color(0xFFFDECEA); // đỏ nhạt
+    default:
+      return Colors.grey.shade200;
+  }
+}
+
+Color statusTextColor(String status) {
+  switch (status.toLowerCase()) {
+    case 'processing':
+      return const Color(0xFFFF9800); // cam
+    case 'shipping':
+      return const Color(0xFF1A73E8); // xanh dương
+    case 'completed':
+      return const Color(0xFF34A853); // xanh lá
+    case 'cancelled':
+      return const Color(0xFFD93025); // đỏ
+    default:
+      return Colors.grey;
   }
 }

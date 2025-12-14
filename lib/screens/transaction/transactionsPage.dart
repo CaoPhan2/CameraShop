@@ -1,3 +1,5 @@
+import 'package:camerashop/model/transaction/transaction.dart';
+import 'package:camerashop/services/transaction.dart';
 import 'package:camerashop/widget/other/appBar.dart';
 import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:camerashop/widget/transaction/transactionItem.dart';
@@ -13,6 +15,18 @@ class Transactionspage extends StatefulWidget {
 }
 
 class _TransactionspageState extends State<Transactionspage> {
+  List<Transaction> listTrans=[];
+  void initState(){
+    super.initState();
+    loadTransaction();
+  }
+  void loadTransaction() async{
+    List<Transaction> transactions = await transactionAPI.getTransaction();
+    if(!mounted) return;
+    setState(() {
+      listTrans = transactions;
+    });
+  }
   String keyword ="";
   void onSearch(String value){
     setState(() {
@@ -141,8 +155,16 @@ class _TransactionspageState extends State<Transactionspage> {
                 ),
               ),
             ),
-            for(int i=0;i<4;i++)
-            Transactionitem(),
+            listTrans.isEmpty 
+              ? Center(child: CircularProgressIndicator(),) 
+              : ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: listTrans.length,
+                itemBuilder: (context, index){
+                  return Transactionitem(transaction: listTrans[index],);
+                }
+                ) 
           ],
         ),
       ),
@@ -150,3 +172,4 @@ class _TransactionspageState extends State<Transactionspage> {
     );
   }
 }
+
