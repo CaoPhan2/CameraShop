@@ -1,7 +1,9 @@
+import 'package:camerashop/model/transaction/tracking.dart';
 import 'package:flutter/material.dart';
 
 class Shipment extends StatelessWidget {
-  const Shipment({super.key});
+  final Tracking tracking;
+  const Shipment({super.key, required this.tracking});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class Shipment extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "ID353KBF5354",
+                    tracking.trackingNumber,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),
@@ -61,7 +63,7 @@ class Shipment extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "MA4235/534/33",
+                    tracking.orderId,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),
@@ -79,7 +81,7 @@ class Shipment extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Cameron WiliamSon",
+                    tracking.customerName,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),
@@ -103,7 +105,7 @@ class Shipment extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "june 28 2025",
+                    tracking.deliveryDate,
                     style: TextStyle(
                       fontWeight: FontWeight.bold
                     ),
@@ -123,7 +125,7 @@ class Shipment extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Fedx",
+                      tracking.shippingService,
                       style: TextStyle(
                         fontWeight: FontWeight.bold
                       ),
@@ -162,255 +164,61 @@ class Shipment extends StatelessWidget {
           ),
           Divider(),
           SizedBox(height: 10,),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.lightBlue
+          
+          for(int i=0; i<tracking.timeline.length; i++)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: tracking.timeline[i].isCompleted ? Color(0xFF6AC8FF) : Colors.grey[500],
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "January 24 2025",
-                    style: TextStyle(
-                      color: Colors.lightBlue
+                    SizedBox(width: 10,),
+                    Text(
+                      tracking.timeline[i].date,
+                      style: TextStyle(
+                        color: tracking.timeline[i].isCompleted ? Color(0xFF6AC8FF) : Colors.grey[500],
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "12 PM WIB",
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                  )
-
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    margin: EdgeInsets.only(left: 40),
-                    decoration: BoxDecoration(
-                      border: Border(left: BorderSide(color: Colors.lightBlue))
-                    ),
-                    child: Text(
-                      "The package has arrived at the destination address",
-                    style: TextStyle(
-                      color: Colors.lightBlue
-                    ),
-                    ),
-                  )
-                ],
-              )
-            ],
+                    Spacer(),
+                    Text(
+                      tracking.timeline[i].time,
+                      style: TextStyle(
+                        color: Colors.grey[500],
+                      ),
+                    )
+            
+                  ],
+                ),
+                SizedBox(height: 10,),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      margin: EdgeInsets.only(left: 40),
+                      decoration: BoxDecoration(
+                        border: Border(left: BorderSide(color: tracking.timeline[i].isCompleted ? Color(0xFF6AC8FF) : Colors.grey.shade500,))
+                      ),
+                      child: Text(
+                        tracking.timeline[i].description,
+                      style: TextStyle(
+                        color: tracking.timeline[i].isCompleted ? Color(0xFF6AC8FF) : Colors.grey[500],
+                      ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
-          SizedBox(height:  20,),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "January 24 2025",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "12 PM WIB",
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                  )
-
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    margin: EdgeInsets.only(left: 40),
-                    decoration: BoxDecoration(
-                      border: Border(left: BorderSide(color: Colors.grey.shade400))
-                    ),
-                    child: Text(
-                      "The package has arrived at the destination address",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(height:  20,),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "January 24 2025",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "12 PM WIB",
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                  )
-
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    margin: EdgeInsets.only(left: 40),
-                    decoration: BoxDecoration(
-                      border: Border(left: BorderSide(color: Colors.grey.shade400))
-                    ),
-                    child: Text(
-                      "The package has arrived at the destination address",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(height:  20,),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "January 24 2025",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "12 PM WIB",
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                  )
-
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    margin: EdgeInsets.only(left: 40),
-                    decoration: BoxDecoration(
-                      border: Border(left: BorderSide(color: Colors.grey.shade400))
-                    ),
-                    child: Text(
-                      "The package has arrived at the destination address",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(height:  20,),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Text(
-                    "January 24 2025",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "12 PM WIB",
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                  )
-
-                ],
-              ),
-              SizedBox(height: 10,),
-              Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    margin: EdgeInsets.only(left: 40),
-                    decoration: BoxDecoration(
-                      border: Border(left: BorderSide(color: Colors.grey.shade400))
-                    ),
-                    child: Text(
-                      "The package has arrived at the destination address",
-                    style: TextStyle(
-                      color: Colors.grey[500]
-                    ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          )
+          
         ],
       ),
       bottomNavigationBar: BottomAppBar(

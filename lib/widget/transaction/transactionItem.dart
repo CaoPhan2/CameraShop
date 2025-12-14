@@ -1,5 +1,6 @@
 import 'package:camerashop/model/transaction/transaction.dart';
 import 'package:camerashop/screens/transaction/shipment.dart';
+import 'package:camerashop/services/trackingAPI.dart';
 import 'package:flutter/material.dart';
 
 class Transactionitem extends StatelessWidget {
@@ -105,8 +106,16 @@ class Transactionitem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5)
                   )
                 ),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Shipment()));
+                onPressed: () async{
+                  final tracking = await TrackingApi.getTrackingByOrderId(transaction.orderId);
+
+                  if (tracking == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Tracking not found")),
+                    );
+                    return;
+                  }
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Shipment(tracking: tracking,)));
                 }, 
                 child: Text(
                   "View Tracking",
