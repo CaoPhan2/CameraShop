@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:camerashop/screens/splash_login/signInPage.dart';
 import 'package:camerashop/screens/splash_login/splashPage.dart';
 import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:flutter/material.dart';

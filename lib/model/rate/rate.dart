@@ -1,7 +1,7 @@
 class Rate {
   final String rateId;
   final String userId;
-  final String productId;
+  final int productId;
   final int rating;
   final String comment;
   final List<String> images;

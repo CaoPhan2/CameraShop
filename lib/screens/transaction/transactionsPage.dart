@@ -16,23 +16,61 @@ class Transactionspage extends StatefulWidget {
 
 class _TransactionspageState extends State<Transactionspage> {
   List<Transaction> listTrans=[];
+  List<Transaction> displayTransactions = [];
   void initState(){
     super.initState();
     loadTransaction();
   }
   void loadTransaction() async{
-    List<Transaction> transactions = await transactionAPI.getTransaction();
+    listTrans = await transactionAPI.getTransaction();
     if(!mounted) return;
     setState(() {
-      listTrans = transactions;
+      displayTransactions = listTrans;
     });
   }
+
+  //hiển thị theo trạng thái đó cha
+  void fillterByStatus(String status){
+    setState(() {
+      selectedStatus = status;
+      if(status == "All"){
+        displayTransactions = listTrans;
+      }else{
+        displayTransactions = listTrans.where((transaction)=> transaction.status == status).toList();
+      }
+    });
+  }
+
+  //Tkiem
   String keyword ="";
   void onSearch(String value){
     setState(() {
       keyword = value;
     });
   }
+
+  // phần ni là select trạng thái giao hèng
+  String selectedStatus = "All";
+  Widget statusButton(String title) {
+    final bool isSelected = selectedStatus == title;
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: isSelected ? const Color(0xFF6AC8FF) : Colors.white,
+          foregroundColor: isSelected ? Colors.white : Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+        ),
+        onPressed: () {
+          fillterByStatus(title);
+        },
+        child: Text(title),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,64 +125,17 @@ class _TransactionspageState extends State<Transactionspage> {
             ),
             SizedBox(height: 5,),
             Divider(),
+            
             Row(
               children: [
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Color(0xFF6AC8FF)
-                  ),
-                  child: Text(
-                    "All",
-                    style: TextStyle(
-                      color: Colors.white
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey.shade200, width: 1),
-                    color: Colors.white
-                  ),
-                  child: Text(
-                    "Process",
-                    
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey.shade200, width: 1),
-                    color: Colors.white
-                  ),
-                  child: Text(
-                    "Shipping",
-                    
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(right: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: Colors.grey.shade200, width: 1),
-                    color: Colors.white
-                  ),
-                  child: Text(
-                    "Complete",
-                    
-                  ),
-                ),
-
+                statusButton("All"),
+                statusButton("Processing"),
+                statusButton("Shipping"),
+                statusButton("Completed"),
+                statusButton("Cancelled"),
               ],
             ),
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
@@ -155,14 +146,14 @@ class _TransactionspageState extends State<Transactionspage> {
                 ),
               ),
             ),
-            listTrans.isEmpty 
+            displayTransactions.isEmpty 
               ? Center(child: CircularProgressIndicator(),) 
               : ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: listTrans.length,
+                itemCount: displayTransactions.length,
                 itemBuilder: (context, index){
-                  return Transactionitem(transaction: listTrans[index],);
+                  return Transactionitem(transaction: displayTransactions[index],);
                 }
                 ) 
           ],
@@ -172,4 +163,6 @@ class _TransactionspageState extends State<Transactionspage> {
     );
   }
 }
+
+
 

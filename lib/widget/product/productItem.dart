@@ -1,6 +1,8 @@
 import 'package:camerashop/model/Cart/Cart.dart';
 import 'package:camerashop/model/product/product.dart';
+import 'package:camerashop/model/rate/rate.dart';
 import 'package:camerashop/screens/product_details/product_details.dart';
+import 'package:camerashop/services/rateAPI.dart';
 import 'package:flutter/material.dart';
 
 class Productitem extends StatefulWidget {
@@ -12,6 +14,26 @@ class Productitem extends StatefulWidget {
 }
 
 class _ProductitemState extends State<Productitem> {
+  List<Rate> rates = [];
+  double avaRating = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    loadRates();
+  }
+
+  void loadRates() async{
+    final allRates = await RateAPI.getRates();
+    final productRates = allRates.where((r)=> r.productId == widget.product.id).toList();
+    double avg = 0.0;
+    if(productRates.isNotEmpty){
+      avg = productRates.map((r)=> r.rating).reduce((a, b)=> a+ b) / productRates.length;
+    }
+    setState(() {
+      rates = productRates;
+      avaRating = avg;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -58,7 +80,7 @@ class _ProductitemState extends State<Productitem> {
                   color: Colors.amber, 
                   size: 16 
                 ),
-                Text("(36)"),
+                Text("(${avaRating.toStringAsFixed(1)})"), // mn cho nhiều cho vui 
                 SizedBox(width: 10),
                 Text(widget.product.sold.toString()+ " sold"),
                   
