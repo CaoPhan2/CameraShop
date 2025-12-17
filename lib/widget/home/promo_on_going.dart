@@ -21,9 +21,9 @@ class _PromoOnGoingState extends State<PromoOnGoing> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(width: 20),
+            SizedBox(width: 10),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -31,7 +31,7 @@ class _PromoOnGoingState extends State<PromoOnGoing> {
               child: Text(
                 "23  :  59  :  59",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),

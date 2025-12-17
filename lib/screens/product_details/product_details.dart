@@ -350,65 +350,72 @@ class _ProductDetailsState extends State<ProductDetails> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey[100],
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             children: [
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  
-                  side: BorderSide(color: Color(0xFF6AC8FF), width: 1),
-                  backgroundColor: Colors.white,
-                  foregroundColor: Color(0xFF6AC8FF),
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                    
-                  )
+              Expanded(
+                flex: 4,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: Size(0, 56),
+                    side: BorderSide(color: Color(0xFF6AC8FF), width: 1),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Color(0xFF6AC8FF),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      
+                    )
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      Cart().addToCart(widget.product);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Row(
+                          children: [
+                            Icon(Icons.done,size: 18,color: Colors.green,),
+                            Text(' Đã thêm vào giỏ hàng',style: TextStyle(color: Colors.green),), 
+                          ],
+                        ),
+                        duration: Duration(seconds: 1),
+                        backgroundColor: Colors.white,
+                        )
+                      );
+                    });
+                  },
+                  child: Text('Add to Cart',),
                 ),
-                onPressed: () {
-                  setState(() {
-                    Cart().addToCart(widget.product);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Row(
-                        children: [
-                          Icon(Icons.done,size: 18,color: Colors.green,),
-                          Text(' Đã thêm vào giỏ hàng',style: TextStyle(color: Colors.green),), 
-                        ],
-                      ),
-                      duration: Duration(seconds: 1),
-                      backgroundColor: Colors.white,
-                      )
-                    );
-                  });
-                },
-                child: Text('Add to Cart',),
               ),
               SizedBox(width: 20,),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF6AC8FF),
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)
-                  )
+              Expanded(
+                flex: 4,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(0, 56),
+                    backgroundColor: Color(0xFF6AC8FF),
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)
+                    )
+                  ),
+                  onPressed: () {
+                    // Add to cart action
+                  },
+                  child: Text('Buy Now'),
                 ),
-                onPressed: () {
-                  // Add to cart action
-                },
-                child: Text('Buy Now'),
               ),
-              SizedBox(width: 20,),
+              SizedBox(width: 15,),
               Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white
+                  ),
+                  child: IconButton(
+                    onPressed: (){}, 
+                    icon: Icon(Icons.message_outlined)
+                  ),
                 ),
-                child: IconButton(
-                  onPressed: (){}, 
-                  icon: Icon(Icons.message_outlined)
-                ),
-              )
             ],
           )
         ),

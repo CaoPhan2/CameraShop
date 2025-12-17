@@ -63,6 +63,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
           ),
           SizedBox(height: 10,),
           Container(
+            width: double.infinity,
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -72,10 +73,12 @@ class _CheckoutpageState extends State<Checkoutpage> {
               children: [
                 Icon(Icons.check_circle,size: 16, color: Colors.green,),
                 SizedBox(width: 10,),
-                Text(
-                  "Congratulations! We have sent your order details to our cashier.",
-                  style: TextStyle(
-                    color: Colors.green
+                Expanded(
+                  child: Text(
+                    "Congratulations! We have sent your order details to our cashier.",
+                    style: TextStyle(
+                      color: Colors.green
+                    ),
                   ),
                 )
               ],

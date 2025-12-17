@@ -211,44 +211,55 @@ class _ReceiptpageState extends State<Receiptpage> {
         color: Colors.white,
         shadowColor: Color(0xFF6AC8FF),
         elevation: 2,
-        child: Row(
-          children: [
-            TextButton(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 18,horizontal: 65),
-                backgroundColor: Colors.white,
-                foregroundColor: Color(0xFF6AC8FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(color: Color(0xFF6AC8FF))
-                )
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 5,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    minimumSize: Size(0, 56),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Color(0xFF6AC8FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      side: BorderSide(color: Color(0xFF6AC8FF))
+                    )
+                  ),
+                  onPressed: (){}, 
+                  child: Text(
+                    "Download Receipt",
+                   
+                  )
+                ),
               ),
-              onPressed: (){}, 
-              child: Text(
-                "Download Receipt",
-               
+          
+              Spacer(),
+              Expanded(
+                flex: 5,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    minimumSize: Size(0, 56),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    backgroundColor: Color(0xFF6AC8FF),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      side: BorderSide(color: Color(0xFF6AC8FF))
+                    )
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
+                  }, 
+                  child: Text(
+                    "Back Home"
+                  )
+                ),
               )
-            ),
-
-            Spacer(),
-            TextButton(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 18,horizontal: 65),
-                backgroundColor: Color(0xFF6AC8FF),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(color: Color(0xFF6AC8FF))
-                )
-              ),
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
-              }, 
-              child: Text(
-                "Back Home"
-              )
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

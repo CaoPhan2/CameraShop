@@ -225,42 +225,53 @@ class Shipment extends StatelessWidget {
         color: Colors.white,
         shadowColor: Color(0xFF6AC8FF),
         elevation: 2,
-        child: Row(
-          children: [
-            TextButton(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 18,horizontal: 85),
-                backgroundColor: Colors.white,
-                foregroundColor: Color(0xFF6AC8FF),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(color: Color(0xFF6AC8FF))
-                )
+        child: Padding(
+          padding: const EdgeInsets.symmetric( vertical: 10),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 5,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    minimumSize: Size(0, 56),
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Color(0xFF6AC8FF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      side: BorderSide(color: Color(0xFF6AC8FF))
+                    )
+                  ),
+                  onPressed: (){},
+                  child: Text(
+                    "Complain",
+                   
+                  )
+                ),
               ),
-              onPressed: (){},
-              child: Text(
-                "Complain",
-               
+          
+              Spacer(),
+              Expanded(
+                flex: 5,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size(0, 56),
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    backgroundColor: Color(0xFF6AC8FF),
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      side: BorderSide(color: Color(0xFF6AC8FF))
+                    )
+                  ),
+                  onPressed: (){},
+                  child: Text(
+                    "Complete"
+                  )
+                ),
               )
-            ),
-
-            Spacer(),
-            TextButton(
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 18,horizontal: 85),
-                backgroundColor: Color(0xFF6AC8FF),
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  side: BorderSide(color: Color(0xFF6AC8FF))
-                )
-              ),
-              onPressed: (){},
-              child: Text(
-                "Complete"
-              )
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

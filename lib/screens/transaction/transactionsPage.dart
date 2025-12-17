@@ -126,14 +126,17 @@ class _TransactionspageState extends State<Transactionspage> {
             SizedBox(height: 5,),
             Divider(),
             
-            Row(
-              children: [
-                statusButton("All"),
-                statusButton("Processing"),
-                statusButton("Shipping"),
-                statusButton("Completed"),
-                statusButton("Cancelled"),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  statusButton("All"),
+                  statusButton("Processing"),
+                  statusButton("Shipping"),
+                  statusButton("Completed"),
+                  statusButton("Cancelled"),
+                ],
+              ),
             ),
 
             Padding(
