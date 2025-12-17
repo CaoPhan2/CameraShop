@@ -1,4 +1,5 @@
 import 'package:camerashop/model/Cart/Cart.dart';
+import 'package:camerashop/screens/home/home_screen.dart';
 import 'package:camerashop/widget/checkout_payment/receiptItem.dart';
 import 'package:flutter/material.dart';
 class Receiptpage extends StatefulWidget {
@@ -10,6 +11,7 @@ class Receiptpage extends StatefulWidget {
 }
 
 class _ReceiptpageState extends State<Receiptpage> {
+  final String token = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,7 +242,7 @@ class _ReceiptpageState extends State<Receiptpage> {
                 )
               ),
               onPressed: (){
-                Navigator.pushNamed(context, "/");
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
               }, 
               child: Text(
                 "Back Home"

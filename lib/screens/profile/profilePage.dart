@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'package:camerashop/screens/splash_login/signInPage.dart';
 import 'package:camerashop/screens/splash_login/splashPage.dart';
 import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 class Profilepage extends StatefulWidget {
-  final String accessToken;
-  const Profilepage({super.key, required this.accessToken});
+  const Profilepage({super.key});
 
   @override
   State<Profilepage> createState() => _ProfilepageState();
@@ -22,13 +23,24 @@ class _ProfilepageState extends State<Profilepage> {
   }
   Future<void> getUserData() async {
     final url = Uri.parse('https://dummyjson.com/auth/me');
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('accessToken');
 
+    // 🚨 CHƯA LOGIN
+    if (token == null) {
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => Signinpage()),
+        );
+      }
+      return;
+    }
     try {
       final response = await http.get(
         url,
         headers: {
-          'Authorization':
-              'Bearer ${widget.accessToken}', // Gửi token lên server xác thực
+          'Authorization':'Bearer $token',
           'Content-Type': 'application/json',
         },
       );
@@ -270,7 +282,7 @@ class _ProfilepageState extends State<Profilepage> {
           ),
       ),
 
-      bottomNavigationBar: Bottomappbar(currentIndex: 4, token: widget.accessToken,),
+      bottomNavigationBar: Bottomappbar(currentIndex: 4,),
     );
   }
 }

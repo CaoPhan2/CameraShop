@@ -44,7 +44,11 @@ class _ProductitemState extends State<Productitem> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetails(product: widget.product,),
+            builder: (context) => ProductDetails(
+              product: widget.product,
+              avaRating: avaRating,
+              rates: rates,
+            ),
           ),
         );
       },
@@ -99,7 +103,7 @@ class _ProductitemState extends State<Productitem> {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  "\$${widget.product.price-15.2}",  // tạm thời 
+                  "\$${widget.product.price-15.2}",  // tạm thui
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,

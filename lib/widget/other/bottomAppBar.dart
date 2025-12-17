@@ -5,11 +5,16 @@ import 'package:camerashop/screens/transaction/transactionsPage.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
-class Bottomappbar extends StatelessWidget {
+class Bottomappbar extends StatefulWidget {
   final int currentIndex; 
-  final String token;
-  const Bottomappbar({super.key, required this.currentIndex, required this.token});
 
+  const Bottomappbar({super.key, required this.currentIndex});
+
+  @override
+  State<Bottomappbar> createState() => _BottomappbarState();
+}
+
+class _BottomappbarState extends State<Bottomappbar> {
   @override
   Widget build(BuildContext context) {
     return ConvexAppBar(
@@ -19,7 +24,7 @@ class Bottomappbar extends StatelessWidget {
       backgroundColor: Colors.white,
       color: Colors.grey,
       activeColor: Color(0xFF6AC8FF),
-      initialActiveIndex: currentIndex,
+      initialActiveIndex: widget.currentIndex,
       items: [
         TabItem(icon: Icons.home_outlined, title: 'Home'),
         TabItem(icon: Icons.favorite_outline, title: 'Favorite'),
@@ -42,7 +47,7 @@ class Bottomappbar extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(accessToken: token),
+              builder: (context) => HomeScreen(),
             ),
           );
         }
@@ -51,7 +56,7 @@ class Bottomappbar extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Favoritepage(accessToken: token),
+              builder: (context) => Favoritepage(),
             ),
           );
         }
@@ -62,7 +67,7 @@ class Bottomappbar extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Transactionspage(accessToken: token),
+              builder: (context) => Transactionspage(),
             ),
           );
         }
@@ -70,7 +75,7 @@ class Bottomappbar extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Profilepage(accessToken: token),
+              builder: (context) => Profilepage(),
             ),
           );
         }

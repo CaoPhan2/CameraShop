@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:camerashop/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 class Signinpage extends StatefulWidget {
   const Signinpage({super.key});
 
@@ -34,8 +35,11 @@ class _SigninpageState extends State<Signinpage> {
         // 1. Giải mã JSON
         final data = jsonDecode(response.body);
         String token = data['accessToken'] ?? data['token'];
-
-        // 2. Chuyển sang màn hình Profile và gửi kèm Token
+        String avatar = data['image'] ?? '';
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('accessToken', token);
+        await prefs.setString("avatar", avatar);
+       
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Đăng nhập thành công!')),
@@ -44,7 +48,7 @@ class _SigninpageState extends State<Signinpage> {
           Navigator.pushReplacement( 
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(accessToken: token),
+              builder: (context) => HomeScreen(),
             ),
           );
         }

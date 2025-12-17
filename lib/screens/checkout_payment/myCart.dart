@@ -282,7 +282,7 @@ class _MycartState extends State<Mycart> {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => Checkoutpage(),));
               },
                 child: Text(
-                "Pay Now",
+                "Checkout",
                 style: TextStyle(
                   color: Colors.white,      
                   fontWeight: FontWeight.bold,

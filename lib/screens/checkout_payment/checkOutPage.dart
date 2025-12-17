@@ -10,7 +10,9 @@ class Checkoutpage extends StatefulWidget {
 }
 
 class _CheckoutpageState extends State<Checkoutpage> {
-  bool _ischecked = false;
+  bool _cardChecked = false;
+  bool _mobileChecked = false;
+  final _formKey = GlobalKey<FormState>();
   double total = Cart().items.fold(0, (sum, item) => sum + item.product.price * item.Quantity);
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
         )
       ),
       body: ListView(
+        scrollDirection: Axis.vertical,
         padding: EdgeInsets.all(15),
         children: [
           for(var item in Cart().items)
@@ -165,90 +168,145 @@ class _CheckoutpageState extends State<Checkoutpage> {
                       "Credit Card/Debit"
                     ),
                     Spacer(),
-                    Icon(Icons.credit_card,color: Colors.blue,size: 16,),
+                    Icon(Icons.credit_card,color: Colors.blue,size: 24,),
                     SizedBox(width: 10,),
-                    Icon(Icons.credit_score_outlined, color: Colors.orange,size: 16,),
+                    Icon(Icons.credit_score_outlined, color: Colors.orange,size: 24,),
                     SizedBox(width: 10,),
                     Checkbox(
-                      value: _ischecked,
-                      onChanged: (value){
+                      value: _cardChecked,
+                      onChanged: (value) {
                         setState(() {
-                          _ischecked = value!;
+                          _cardChecked = value!;
+                          _mobileChecked = false;
                         });
                       },
-                      activeColor: Color(0xFF6AC8FF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)
-                      ),
-                     
                     )
                   ],
                 ),
                 SizedBox(height: 10,),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      _cardChecked ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Payment Details",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          SizedBox(height:10,),
+                          Text(
+                            "Please fill out the form below. Enter your card account details",
+                            style: TextStyle(
+                              color: Colors.grey[500]
+                            
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          TextFormField(
+                            keyboardType: TextInputType.datetime,
+                            decoration: InputDecoration(
+                              labelText: "your name on card",
+                              hintText: "Nguyen Van A",
+                              filled: false,
+                              suffixIcon: Icon(Icons.person, color: Colors.blue,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(5),
+                              
+                              )
+                            ),
+                            validator: (value) {
+                              if(value == null || value.isEmpty) {
+                                return 'Please enter a valid name';
+                              }
+                            },
+                          ),
+                          SizedBox(height: 10,),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 16,
+                                  decoration: InputDecoration(
+                                  labelText: "Card Number",
+                                  hintText: "1243 3545 5657 7655",
+                                  filled: false,
+                                  suffixIcon: Icon(Icons.credit_card_outlined, color: Colors.blue,),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey.shade300),
+                                    borderRadius: BorderRadius.circular(5),
+                                  )
+                                  ),
+                                validator: (value) {
+                                  if(value == null || value.isEmpty || value.length < 16) {
+                                    return 'Please enter your card number';
+                                  }
+                                },
+                                ),
+                              ),
+                              SizedBox(width: 5,),
+                              Expanded(
+                                child: TextFormField(
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 4,
+                                  decoration: InputDecoration(
+                                    labelText: "Cvv",
+                                    hintText: "123",
+                                    filled: false,
+                                    suffixIcon: Icon(Icons.lock_outline, color: Colors.blue,),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.grey.shade300),
+                                      borderRadius: BorderRadius.circular(5),
+                                    
+                                    )
+                                  ),
+                                  validator: (value) {
+                                    if(value == null || value.isEmpty || value.length < 3) {
+                                      return 'Please enter your CVV';
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          
+                          
+                        ],
+                      )
+                      : Container(),
+                    ],
+                  )),
                 Divider(),
                 Row(
                   children: [
                     Text(
-                      "Mobile Banking"
+                      "Pay on Delivery"
                     ),
                     Spacer(),
-                    Icon(Icons.credit_card,color: Colors.blue,size: 16,),
+                    Icon(Icons.mobile_friendly,color: Colors.blue,size: 24,),
                     SizedBox(width: 10,),
-                    Icon(Icons.credit_score_outlined, color: Colors.orange,size: 16,),
-                    SizedBox(width: 10,),
+                   
                     Checkbox(
-                      value: _ischecked,
-                      onChanged: (value){
+                      value: _mobileChecked,
+                      onChanged: (value) {
                         setState(() {
-                          _ischecked = value!;
+                          _mobileChecked = value!;
+                          _cardChecked = false;
                         });
                       },
-                      activeColor: Color(0xFF6AC8FF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)
-                      ),
-                     
                     )
                   ],
                 )
               ],
             ),
           ),
-          SizedBox(height: 20,),
-          Text(
-            "Payment Details",
-            style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          SizedBox(height:10,),
-          Text(
-            "Please fill ou tthe form below. Enter your card account details",
-            style: TextStyle(
-              color: Colors.grey[500]
-             
-            ),
-          ),
-          SizedBox(height: 20,),
-          Text(
-            "Card Number",
-            style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),
-          ),
-          SizedBox(height:10,),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: "1243 3545 5657 7655",
-              filled: false,
-              suffixIcon: Icon(Icons.credit_card_outlined, color: Colors.blue,),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(5),
-               
-              )
-            ),
-          )
+
+          
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -256,6 +314,17 @@ class _CheckoutpageState extends State<Checkoutpage> {
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
             onPressed: (){
+              if(!_cardChecked && ! _mobileChecked){
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Please select a payment method'))
+                );
+                return;
+              }
+              if(_cardChecked){
+                if(_formKey.currentState!.validate() == false){
+                  return;
+                }
+              }
               Navigator.push(context, MaterialPageRoute(builder: (context) => Receiptpage(total: total,),));
             },
             style: ElevatedButton.styleFrom(

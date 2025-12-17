@@ -8,13 +8,21 @@ import 'package:readmore/readmore.dart';
 
 class ProductDetails extends StatefulWidget {
   final Product product;
-  const ProductDetails({super.key, required this.product});
+  final double avaRating;
+  final List rates;
+  const ProductDetails({super.key, required this.product, required this.avaRating, required this.rates});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  late int reviewWithContent;
+  @override
+  void initState() {
+    super.initState();
+    reviewWithContent = widget.rates.where((r)=> r.comment.isNotEmpty || r.images.isNotEmpty).length;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +147,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             children: [
                               Icon(Icons.star, color: Colors.amber,size: 15,),
                               SizedBox(width: 5),
-                              Text('4.8 (200) - '),
+                              Text('${widget.avaRating.toStringAsFixed(1)} (${widget.rates.length}) - '),
                               Text('${widget.product.sold} sold'),
                               SizedBox(width: 5),
                               Icon(Icons.camera_alt_outlined,size: 20, color: Colors.grey,),
@@ -226,29 +234,33 @@ class _ProductDetailsState extends State<ProductDetails> {
                     children: [
                       Icon(Icons.star, color: Colors.amber,size: 15,),
                       SizedBox(width: 5),
-                      Text('4.8 (10 Rating)'),
+                      Text('${widget.avaRating.toStringAsFixed(1)} (${widget.rates.length} Rating)'),
                       SizedBox(width: 5),
-                      Text('(200 Reviews)'),
+                      Text('(${reviewWithContent.toString()} Reviews)'),
 
                     ],
                   ),
                   Row(
                     children: [
-                      for(int i=0;i<5;i++)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10, top: 10),
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage("assets/images/promo1.jpg"),
+                      for(var rate in widget.rates)
+                        for(var image in rate.images)
+                        if(image.isNotEmpty)
+                        
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10, top: 10),
+                            child: Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(image),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
                       
                     ],
                   )

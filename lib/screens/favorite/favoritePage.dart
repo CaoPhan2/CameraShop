@@ -5,8 +5,7 @@ import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:flutter/material.dart';
 
 class Favoritepage extends StatefulWidget {
-  final String accessToken;
-  const Favoritepage({super.key, required this.accessToken});
+  const Favoritepage({super.key});
 
   @override
   State<Favoritepage> createState() => _FavoritepageState();
@@ -72,7 +71,7 @@ class _FavoritepageState extends State<Favoritepage> {
           ],
         ),
       ),
-      bottomNavigationBar: Bottomappbar(currentIndex: 1,token: widget.accessToken,),
+      bottomNavigationBar: Bottomappbar(currentIndex: 1,),
     );
   }
 }
