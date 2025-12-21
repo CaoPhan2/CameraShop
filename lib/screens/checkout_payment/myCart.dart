@@ -95,41 +95,45 @@ class _MycartState extends State<Mycart> {
                     ),
                   ),
                   SizedBox(width: 15,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        cartItem.product.title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          cartItem.product.title,
+                          maxLines: 1,
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontWeight: FontWeight.bold
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 5,),
-                      Text(
-                        "\$${cartItem.product.price}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold
+                        SizedBox(height: 5,),
+                        Text(
+                          "\$${cartItem.product.price}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 5,),
-                      Text(
-                        "Quantity",
-                        style: TextStyle(
-                          fontSize: 12
+                        SizedBox(height: 5,),
+                        Text(
+                          "Quantity",
+                          style: TextStyle(
+                            fontSize: 12
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 5,),
-                      Quantityselector(
-                        cartItem: cartItem,
-                        onChanged: (){
-                          setState(() {
-                           
-                          });
-                        },
-                      ),
-                    ],
+                        SizedBox(height: 5,),
+                        Quantityselector(
+                          cartItem: cartItem,
+                          onChanged: (){
+                            setState(() {
+                             
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  Spacer(),
+                 
                   IconButton(
                     onPressed: (){
                       setState(() {
@@ -179,19 +183,25 @@ class _MycartState extends State<Mycart> {
               ],
             ),
            
-            Row(
-              children: [
-                Text(
-                  "Address:"
-                ),
-                Spacer(),
-                Text(
-                  "32/131 Trần Phú, Tp Huế, Thừa Thiên Huế",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold
+            Expanded(
+              child: Row(
+                children: [
+                  Text(
+                    "Address: "
                   ),
-                )
-              ],
+                  Spacer(),
+                  Expanded(
+                    child: Text(
+                      "32/131 Trần Phú, Tp Huế, Thừa Thiên Huế",
+                      maxLines: 1,
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
             SizedBox(height: 10,),
             Row(

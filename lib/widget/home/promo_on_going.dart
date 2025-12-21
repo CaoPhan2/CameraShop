@@ -29,7 +29,7 @@ class _PromoOnGoingState extends State<PromoOnGoing> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                "23  :  59  :  59",
+                "23 : 59 : 59",
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.black,

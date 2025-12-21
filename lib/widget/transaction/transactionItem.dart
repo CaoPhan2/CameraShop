@@ -40,25 +40,28 @@ class Transactionitem extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      transaction.productName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        transaction.productName,
+                        maxLines: 1,
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5,),
-                    Text(
-                      "\$${transaction.price}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold
-                      ),
-                    )
-                  ],
+                      SizedBox(height: 5,),
+                      Text(
+                        "\$${transaction.price}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-                Spacer(),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 3,horizontal: 5),
                   decoration: BoxDecoration(

@@ -39,7 +39,7 @@ class _BottomappbarState extends State<Bottomappbar> {
           ), 
           title: 'Scan'
         ),
-        TabItem(icon: Icons.receipt_long, title: 'Transaction'),
+        TabItem(icon: Icons.receipt_long, title: 'Orders'),
         TabItem(icon: Icons.person_outline, title: 'Profile'),
       ],
       onTap: (int i) {
