@@ -1,10 +1,10 @@
 import 'package:camerashop/widget/favorite/myFavorCam.dart';
-import 'package:camerashop/widget/favorite/myWhisLen.dart';
 import 'package:camerashop/widget/other/appBar.dart';
 import 'package:camerashop/widget/other/bottomAppBar.dart';
 import 'package:flutter/material.dart';
 
 class Favoritepage extends StatefulWidget {
+
   const Favoritepage({super.key});
 
   @override
@@ -21,7 +21,6 @@ class _FavoritepageState extends State<Favoritepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,   // cho gradient chạy lên dưới AppBar
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 156, 219, 255),
@@ -33,16 +32,16 @@ class _FavoritepageState extends State<Favoritepage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter, // từ trên
-            end: Alignment.center, // xuống dưới
+            begin: Alignment.topCenter,
+            end: Alignment.center, 
             colors: [
-              Color(0xFF6AC8FF),// màu trên
-              Colors.white,     // màu dưới
+               Color.fromARGB(255, 156, 219, 255),
+              Colors.white,    
             ],
           ),
         ),
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 120),
+          padding: EdgeInsets.all(15),
           scrollDirection: Axis.vertical,
           children: [
             Row(
@@ -66,8 +65,7 @@ class _FavoritepageState extends State<Favoritepage> {
             Divider(color: const Color.fromARGB(255, 202, 238, 255),),
             SizedBox(height: 10,),
             Myfavorcam(),
-            SizedBox(height: 10,),
-            Mywhislen(),
+            
           ],
         ),
       ),

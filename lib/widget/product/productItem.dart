@@ -1,9 +1,11 @@
 import 'package:camerashop/model/Cart/Cart.dart';
+import 'package:camerashop/model/favoriteProduct/favorProduct.dart';
 import 'package:camerashop/model/product/product.dart';
 import 'package:camerashop/model/rate/rate.dart';
 import 'package:camerashop/screens/product_details/product_details.dart';
 import 'package:camerashop/services/rateAPI.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Productitem extends StatefulWidget {
   final Product product;
@@ -53,24 +55,55 @@ class _ProductitemState extends State<Productitem> {
         );
       },
       child: Container(
+        width: 200,
         margin: EdgeInsets.only(right: 15, top: 10, bottom: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 200,
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(widget.product.images[0]),
+            Stack(
+              children: [
+                Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(widget.product.images[0]),
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: Consumer<FavoriteProductList>(
+                    builder: (context, favList, _) {
+                      final isFav = favList.isFavorite(widget.product);
+
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.3),
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            isFav ? Icons.favorite : Icons.favorite_border,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            favList.toggleFavorite(widget.product);
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ]
             ),
             SizedBox(height: 5),
             Text(
               widget.product.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -113,36 +146,39 @@ class _ProductitemState extends State<Productitem> {
               ],
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Cart().addToCart(widget.product); // thêm sản phẩm vào giỏ
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: 
-                  Row(
-                    children: [
-                      Icon(Icons.done,size: 18,color: Colors.green,),
-                      Text(' Đã thêm vào giỏ hàng',style: TextStyle(color: Colors.green),), 
-                    ],
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Cart().addToCart(widget.product); // thêm sản phẩm vào giỏ
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: 
+                    Row(
+                      children: [
+                        Icon(Icons.done,size: 18,color: Colors.green,),
+                        Text(' Đã thêm vào giỏ hàng',style: TextStyle(color: Colors.green),), 
+                      ],
+                    ),
+                    backgroundColor: Colors.white,
+                    duration: Duration(seconds: 1),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF6AC8FF),
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  backgroundColor: Colors.white,
-                  duration: Duration(seconds: 1),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF6AC8FF),
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 65, vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
                 ),
+                child: Text(
+                  "Add to Cart",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
               ),
-              child: Text(
-                "Add to Cart",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              )
             )
           ],
         ),

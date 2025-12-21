@@ -1,52 +1,38 @@
-import 'package:camerashop/model/product/product.dart';
-import 'package:camerashop/services/productAPI.dart';
+import 'package:camerashop/model/favoriteProduct/favorProduct.dart';
 import 'package:camerashop/widget/product/productItem.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class Myfavorcam extends StatefulWidget {
+class Myfavorcam extends StatelessWidget {
   const Myfavorcam({super.key});
 
   @override
-  State<Myfavorcam> createState() => _MyfavorcamState();
-}
-
-class _MyfavorcamState extends State<Myfavorcam> {
-  @override
   Widget build(BuildContext context) {
+    final favList = context.watch<FavoriteProductList>();
+    final favorites = favList.favorites;
+
     return Column(
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child:
-            Text(
-              "My Favorite Camera",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold
+        favorites.isEmpty
+          ? const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Center(child: Text("No favorite product added yet.")),
+            )
+          : GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: favorites.length,
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 230,
+                mainAxisExtent: 300,
+                childAspectRatio: 0.75,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
               ),
+              itemBuilder: (context, index) {
+                return Productitem(product: favorites[index]);
+              },
             ),
-        ),
-        SizedBox(height: 10,),
-        Container(
-          height: 300,
-          child: FutureBuilder<List<Product>>(
-            future: Productapi.getProducts(), 
-            builder: (context, snapshot){
-              if(!snapshot.hasData){
-                return Center(child : CircularProgressIndicator());
-              }
-              final products = snapshot.data!;
-              return ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  for(var product in products)
-                    if(product.category == "Camera")
-                      Productitem(product: product),
-                ],
-              );
-            }
-          )
-        )
       ],
     );
   }

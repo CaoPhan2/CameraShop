@@ -1,31 +1,22 @@
-import 'dart:convert';
-import 'package:camerashop/screens/home/home_screen.dart';
-import 'package:camerashop/screens/splash_login/registerPage.dart';
+import 'package:camerashop/screens/splash_login/signInPage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-class Signinpage extends StatefulWidget {
-  const Signinpage({super.key});
 
-  @override
-  State<Signinpage> createState() => _SigninpageState();
-}
+class Registerpage extends StatelessWidget {
+  const Registerpage({super.key});
 
-class _SigninpageState extends State<Signinpage> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
-
-  
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+    final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _confirmpasswordController = TextEditingController();
+  bool _isLoading = false;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter, 
-            end: Alignment.center, 
+            end: Alignment.bottomCenter, 
             colors: [
               Color(0xFF6AC8FF),
               Colors.white,     
@@ -36,7 +27,7 @@ class _SigninpageState extends State<Signinpage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 60.0, bottom: 20),
+              padding: const EdgeInsets.only(top: 20.0, bottom: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -58,17 +49,19 @@ class _SigninpageState extends State<Signinpage> {
               child: Column(
                 children: [
                   Text(
-                    "Sign In Account",
+                    "Create an Account",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
                   SizedBox(height: 20,),
+                  SizedBox(height: 15,),
                   TextFormField(
-                    controller: _usernameController,
+                    controller: _emailController,
+                    keyboardType:TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: "Username",
+                      labelText: "Email",
                       labelStyle: TextStyle(
                         color: Colors.grey[600]
                       ) ,
@@ -85,12 +78,17 @@ class _SigninpageState extends State<Signinpage> {
                     ),
                     validator: (value){
                       if(value == null || value.isEmpty){
-                        return "insert your username, please!";
+                        return "Insert your email, please!";
+                      }
+                      final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$');
+
+                      if (!emailRegex.hasMatch(value)) {
+                        return "Email not validated!";
                       }
                       return null;
                     },
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 15,),
                   TextFormField(
                     controller: _passwordController,
                     decoration: InputDecoration(
@@ -112,20 +110,42 @@ class _SigninpageState extends State<Signinpage> {
                     ),
                     validator: (value){
                       if(value == null || value.isEmpty){
-                        return "insert your password, please!";
+                        return "Insert your password, please!";
                       }
                       return null;
                     },
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children:[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 30),
-                        child: Text("Forgot password?", style: TextStyle(color: Color(0xFF6AC8FF)),),
-                      )
-                    ]
+                  SizedBox(height: 15,),
+                  TextFormField(
+                    controller: _confirmpasswordController,
+                    decoration: InputDecoration(
+                      labelText: "Confirm Password",
+                      labelStyle: TextStyle(
+                        color: Colors.grey[600]
+                      ) ,
+                      filled: true,
+                      fillColor: Colors.white,
+                      prefixIcon: Icon(Icons.lock_outlined),
+                      suffixIcon: Icon(Icons.visibility_outlined, size: 16,),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide.none
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF6AC8FF))
+                      ),
+                    ),
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "Insert your password, please!";
+                      }
+                      if(value != _passwordController.text){
+                        return "Password not validated!";
+                      }
+                      return null;
+                    },
                   ),
+                  SizedBox(height: 20,),
 
                   _isLoading ? const CircularProgressIndicator() : 
                   SizedBox(
@@ -141,13 +161,15 @@ class _SigninpageState extends State<Signinpage> {
                       ),
                       onPressed: (){
                         if(_formKey.currentState!.validate()){
-                          handleLogin();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Đăng ký thành công 🎉")),
+                          );
                         }
                       }, 
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: Text(
-                          "Login"
+                          "Register"
                         ),
                       )
                     ),
@@ -240,13 +262,13 @@ class _SigninpageState extends State<Signinpage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don't have an account?"
+                          "I have an account"
                         ),
                         TextButton(
                           onPressed: (){
-                            Navigator.push(context,MaterialPageRoute(builder: (context) => Registerpage(),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => Signinpage(),));
                           }, 
-                          child: Text("Sign Up")
+                          child: Text("LogIn")
                         )
                       ],
                     ),
@@ -265,60 +287,4 @@ class _SigninpageState extends State<Signinpage> {
       ),
     );
   }
-
-  Future<void> handleLogin() async {
-    const String apiUrl = 'https://dummyjson.com/auth/login';
-
-    setState(() => _isLoading = true); 
-
-    try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'username': _usernameController.text,
-          'password': _passwordController.text,
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        // 1. Giải mã JSON
-        final data = jsonDecode(response.body);
-        String token = data['accessToken'] ?? data['token'];
-        String avatar = data['image'] ?? '';
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('accessToken', token);
-        await prefs.setString("avatar", avatar);
-       
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Đăng nhập thành công!')),
-          );
-          
-          Navigator.pushReplacement( 
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(),
-            ),
-          );
-        }
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Đăng nhập thất bại. Vui lòng kiểm tra lại!')),
-          );
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi kết nối: $e')),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false); 
-      }
-    }
   }
-}

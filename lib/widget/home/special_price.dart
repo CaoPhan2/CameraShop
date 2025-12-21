@@ -48,6 +48,9 @@ class _SpecialPriceState extends State<SpecialPrice> {
 
   @override
   Widget build(BuildContext context) {
+    if(filtered.isEmpty){
+      return Container();
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

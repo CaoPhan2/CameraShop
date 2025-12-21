@@ -1,8 +1,15 @@
+import 'package:camerashop/model/favoriteProduct/favorProduct.dart';
 import 'package:camerashop/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => FavoriteProductList(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

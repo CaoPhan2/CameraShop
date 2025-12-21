@@ -3,15 +3,15 @@ import 'package:camerashop/services/productAPI.dart';
 import 'package:camerashop/widget/product/productItem.dart';
 import 'package:flutter/material.dart';
 
-class BestLens extends StatefulWidget {
+class Memorys extends StatefulWidget {
   final String keyword;
-  const BestLens({super.key, required this.keyword});
+  Memorys({required this.keyword});
 
   @override
-  State<BestLens> createState() => _BestLensState();
+  State<Memorys> createState() => _MemorysState();
 }
 
-class _BestLensState extends State<BestLens> {
+class _MemorysState extends State<Memorys> {
   List<Product> allProducts = [];
   List<Product> filtered = [];
   bool isLoading = true;
@@ -22,12 +22,13 @@ class _BestLensState extends State<BestLens> {
     loadProduct();
   }
 
+  // Khi widget.keyword thay đổi, tự động lọc lại
   @override
-  void didUpdateWidget(covariant BestLens oldWidget) {
+  void didUpdateWidget(covariant Memorys oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.keyword != widget.keyword) {
       filterProducts();
-      setState(() {});
+      setState(() {}); // cập nhật UI với keyword mới
     }
   }
 
@@ -41,9 +42,7 @@ class _BestLensState extends State<BestLens> {
 
   void filterProducts() {
     filtered = allProducts
-        .where((p) =>
-            p.category.toLowerCase() == "lens" &&
-            p.title.toLowerCase().contains(widget.keyword.toLowerCase()))
+        .where((p) =>p.category.toLowerCase() == "memory" && p.title.toLowerCase().contains(widget.keyword.toLowerCase()))
         .toList();
   }
 
@@ -53,33 +52,25 @@ class _BestLensState extends State<BestLens> {
       return Container();
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Best Lens for You",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+        Text(
+          "Memorys cards",
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
-
         SizedBox(height: 10),
-
-        // Hiển thị lens đã lọc
         Container(
           height: 300,
           child: isLoading
               ? Center(child: CircularProgressIndicator())
-              : ListView(
+              : ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  children: [
-                    for (var product in filtered)
-                      Productitem(product: product),
-                  ],
+                  itemCount: filtered.length,
+                  itemBuilder: (context, index) {
+                    return Productitem(product: filtered[index]);
+                  },
                 ),
-        )
+        ),
       ],
     );
   }

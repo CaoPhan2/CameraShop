@@ -1,5 +1,8 @@
 import 'package:camerashop/widget/home/best_lens.dart';
 import 'package:camerashop/widget/home/brands.dart';
+import 'package:camerashop/widget/home/drone.dart';
+import 'package:camerashop/widget/home/gimbal.dart';
+import 'package:camerashop/widget/home/memorys.dart';
 import 'package:camerashop/widget/home/promo_on_going.dart';
 import 'package:camerashop/widget/home/special_price.dart';
 import 'package:camerashop/widget/other/appBar.dart';
@@ -53,6 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
             SpecialPrice(keyword: keyword,),
             SizedBox(height: 10),
             BestLens(keyword: keyword),
+            SizedBox(height: 10,),
+            Memorys(keyword: keyword,),
+            SizedBox(height: 10,),
+            Gimbal(keyword: keyword,),
+            SizedBox(height: 10,),
+            Drone(keyword: keyword,),
           ],
         ),
       ),
