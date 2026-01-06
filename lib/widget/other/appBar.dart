@@ -1,5 +1,6 @@
 import 'package:camerashop/model/Cart/Cart.dart';
 import 'package:camerashop/screens/checkout_payment/myCart.dart';
+import 'package:camerashop/screens/notification/notification.dart';
 import 'package:flutter/material.dart';
 
 class Appbar extends StatefulWidget {
@@ -113,7 +114,12 @@ class _AppbarState extends State<Appbar> {
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
-                    onPressed: (){}, 
+                    onPressed: (){
+                     Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => NotificationPage()
+                            )
+                          );
+                    }, 
                     icon: Icon(Icons.notifications_none) 
                   ),
                 ),

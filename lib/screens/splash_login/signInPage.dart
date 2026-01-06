@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'package:camerashop/screens/checkout_payment/checkOutPage.dart';
 import 'package:camerashop/screens/home/home_screen.dart';
 import 'package:camerashop/screens/splash_login/registerPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 class Signinpage extends StatefulWidget {
-  const Signinpage({super.key});
+   final bool redirectToCheckout;
+
+  const Signinpage({super.key, this.redirectToCheckout = false});
 
   @override
   State<Signinpage> createState() => _SigninpageState();
@@ -295,12 +298,14 @@ class _SigninpageState extends State<Signinpage> {
             const SnackBar(content: Text('Đăng nhập thành công!')),
           );
           
-          Navigator.pushReplacement( 
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(),
-            ),
-          );
+          if (widget.redirectToCheckout) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => Checkoutpage()),
+            );
+          } else {
+            Navigator.pop(context);
+          }
         }
       } else {
         if (mounted) {

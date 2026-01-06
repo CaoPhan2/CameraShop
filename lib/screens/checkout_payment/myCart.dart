@@ -1,5 +1,8 @@
 import 'package:camerashop/model/Cart/Cart.dart';
 import 'package:camerashop/screens/checkout_payment/checkOutPage.dart';
+import 'package:camerashop/screens/home/home_screen.dart';
+import 'package:camerashop/screens/splash_login/signInPage.dart';
+import 'package:camerashop/services/auth_helper.dart';
 import 'package:camerashop/widget/checkout_payment/quantitySelector.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +56,24 @@ class _MycartState extends State<Mycart> {
           ],
         ),
       ),
-      body: ListView.builder(
+      body: 
+      Cart().items.length== 0
+      ? Padding(
+        padding: const EdgeInsets.symmetric(vertical: 50),
+        child: Center(
+            child: Column(
+              children: [
+                Text("There aren't any items"),
+                InkWell(
+                  onTap:(){
+                    Navigator.pushNamed(context, "/");
+                  },
+                  child: Text("Continue shopping", style: TextStyle(color: Colors.lightBlue),),)
+              ],
+            ),
+          ),
+      )
+      :ListView.builder(
         padding: EdgeInsets.only(bottom: 200),
         itemCount: Cart().items.length,
         itemBuilder: (context,index){
@@ -192,7 +212,7 @@ class _MycartState extends State<Mycart> {
                   Spacer(),
                   Expanded(
                     child: Text(
-                      "32/131 Trần Phú, Tp Huế, Thừa Thiên Huế",
+                      "32/131 Tran Phu, Hue city, Thua Thien Hue",
                       maxLines: 1,
                       style: TextStyle(
                         overflow: TextOverflow.ellipsis,
@@ -288,15 +308,27 @@ class _MycartState extends State<Mycart> {
                   borderRadius: BorderRadius.circular(5)
                 )
               ),
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Checkoutpage(),));
+              onPressed: () async{
+                final hasSelected = Cart().items.any((item) => item.isSelected);
+                if(!hasSelected){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please select at least one product.')));
+                  return;
+                }
+
+                final loggedIn = await isLoggedIn();
+                if(loggedIn){
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> Checkoutpage()));
+                }else{
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=> Signinpage(redirectToCheckout: true,)));
+                }
+                
               },
-                child: Text(
-                "Checkout",
-                style: TextStyle(
-                  color: Colors.white,      
-                  fontWeight: FontWeight.bold,
-                )
+              child: Text(
+              "Checkout",
+              style: TextStyle(
+                color: Colors.white,      
+                fontWeight: FontWeight.bold,
+              )
               ),
             )
           ],

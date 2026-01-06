@@ -39,6 +39,7 @@ dependencies:
   http: ^1.2.1
   shared_preferences: ^2.2.2
   provider: ^6.0.0
+  mobile_scanner: ^5.0.0
 
 dev_dependencies:
   flutter_test:

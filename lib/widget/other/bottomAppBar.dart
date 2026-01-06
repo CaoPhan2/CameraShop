@@ -2,11 +2,12 @@ import 'package:camerashop/screens/favorite/favoritePage.dart';
 import 'package:camerashop/screens/home/home_screen.dart';
 import 'package:camerashop/screens/profile/profilePage.dart';
 import 'package:camerashop/screens/transaction/transactionsPage.dart';
+import 'package:camerashop/services/auth_helper.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class Bottomappbar extends StatefulWidget {
-  final int currentIndex; 
+  final int currentIndex;
 
   const Bottomappbar({super.key, required this.currentIndex});
 
@@ -23,24 +24,49 @@ class _BottomappbarState extends State<Bottomappbar> {
       style: TabStyle.fixed,
       backgroundColor: Colors.white,
       color: Colors.grey,
-      activeColor: Color(0xFF6AC8FF),
+      activeColor: const Color(0xFF6AC8FF),
       initialActiveIndex: widget.currentIndex,
       items: [
-        TabItem(icon: Icons.home_outlined, title: 'Home'),
-        TabItem(icon: Icons.favorite_outline, title: 'Favorite'),
+        const TabItem(icon: Icons.home_outlined, title: 'Home'),
+        const TabItem(icon: Icons.favorite_outline, title: 'Favorite'),
+
         TabItem(
-          icon: Container( 
-            decoration: BoxDecoration(
+          icon: Container(
+            decoration: const BoxDecoration(
               color: Color(0xFF6AC8FF),
-              shape: BoxShape.circle,      
-                  
+              shape: BoxShape.circle,
             ),
-            child: Icon(Icons.qr_code_scanner_outlined,color: Colors.white,)
-          ), 
-          title: 'Scan'
+            child: const Icon(
+              Icons.qr_code_scanner_outlined,
+              color: Colors.white,
+            ),
+          ),
+          title: 'Scan',
         ),
-        TabItem(icon: Icons.receipt_long, title: 'Orders'),
-        TabItem(icon: Icons.person_outline, title: 'Profile'),
+
+        const TabItem(icon: Icons.receipt_long, title: 'Orders'),
+
+        /// 👇 PROFILE ICON (LOGIN / LOGOUT)
+        TabItem(
+          icon: FutureBuilder<String?>(
+            future: getAvatar(),
+            builder: (context, snapshot) {
+              final avatarUrl = snapshot.data;
+
+              if (avatarUrl != null && avatarUrl.isNotEmpty) {
+                return CircleAvatar(
+                  radius: 14,
+                  backgroundImage: NetworkImage(avatarUrl),
+                  backgroundColor: Colors.grey.shade200,
+                );
+              } else {
+                return const Icon(Icons.person_outline, color: Colors.grey,);
+              }
+            },
+          ),
+          title: 'Profile',
+        ),
+
       ],
       onTap: (int i) {
         if(i==0){

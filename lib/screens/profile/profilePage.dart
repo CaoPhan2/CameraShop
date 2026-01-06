@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:camerashop/screens/profile/personal.dart';
+import 'package:camerashop/screens/splash_login/logout.dart';
 import 'package:camerashop/screens/splash_login/signInPage.dart';
 import 'package:camerashop/screens/splash_login/splashPage.dart';
 import 'package:camerashop/widget/other/bottomAppBar.dart';
@@ -18,7 +20,7 @@ class _ProfilepageState extends State<Profilepage> {
   @override
   void initState() {
     super.initState();
-    // Gọi hàm lấy dữ liệu ngay khi màn hình vừa mở
+   
     getUserData();
   }
   Future<void> getUserData() async {
@@ -26,7 +28,7 @@ class _ProfilepageState extends State<Profilepage> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('accessToken');
 
-    // 🚨 CHƯA LOGIN
+
     if (token == null) {
       if (mounted) {
         Navigator.pushReplacement(
@@ -52,7 +54,7 @@ class _ProfilepageState extends State<Profilepage> {
           _isLoading = false;
         });
       } else {
-        // Thất bại (Token hết hạn hoặc lỗi server)
+        // Thất bại 
         setState(() => _isLoading = false);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -71,6 +73,11 @@ class _ProfilepageState extends State<Profilepage> {
   }
 
   Widget build(BuildContext context) {
+    if (userData == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
       backgroundColor:Color.fromARGB(255, 223, 242, 254),
       appBar: AppBar(
@@ -158,9 +165,14 @@ class _ProfilepageState extends State<Profilepage> {
                 children: [
                   Icon(Icons.account_circle_outlined,),
                   SizedBox(width: 6,),
-                  Text(
-                    "Personal Information", 
-                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Personal(userData: userData!,)));
+                    },
+                    child: Text(
+                      "Personal Information", 
+                    ),
+                  ),              
                   Spacer(),
                   Icon(Icons.arrow_forward_ios,size: 14,)
                 ],
@@ -278,6 +290,46 @@ class _ProfilepageState extends State<Profilepage> {
               Text(
                 "Help & Support", 
               ),
+              SizedBox(height: 20,),
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: const Text("Log Out", style: TextStyle(fontWeight: FontWeight.bold),),
+                      content: const Text("Are you sure you want to log out?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Cancel"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context); 
+                            logout(context);        
+                          },
+                          child: const Text("Log Out"),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  
+                  backgroundColor: const Color(0xFF6AC8FF),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)
+                  )
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Text("Log Out"),
+                ),
+              ),
+              SizedBox(height: 20,),
+
+
           ]
           ),
       ),

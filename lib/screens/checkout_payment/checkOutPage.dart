@@ -13,7 +13,56 @@ class _CheckoutpageState extends State<Checkoutpage> {
   bool _cardChecked = false;
   bool _mobileChecked = false;
   final _formKey = GlobalKey<FormState>();
-  double total = Cart().items.fold(0, (sum, item) => sum + item.product.price * item.Quantity);
+  double total = Cart().items.where((item)=>item.isSelected).fold(0, (sum, item) => sum + item.product.price * item.Quantity);
+
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _cardNumberController = TextEditingController();
+  final TextEditingController _cvvController = TextEditingController();
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _cardNumberController.dispose();
+    _cvvController.dispose();
+    super.dispose();
+  }
+  void _showCardConfirmDialog() {
+  final String name = _nameController.text.trim();
+  final String cardNumber = _cardNumberController.text.trim();
+  final String cvv = _cvvController.text.trim();
+
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      title: Text("Confirm Card Information"),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Card Holder: $name"),
+          SizedBox(height: 8),
+          Text("Card Number: $cardNumber"),
+          SizedBox(height: 8),
+          Text("CVV: $cvv"),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text("Edit"),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Receiptpage(total: total,),));
+          },
+          child: Text("Confirm"),
+        ),
+      ],
+    ),
+  );
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +95,8 @@ class _CheckoutpageState extends State<Checkoutpage> {
         padding: EdgeInsets.all(15),
         children: [
           for(var item in Cart().items)
-          Checkoutitem(product: item.product,quantity: item.Quantity,),
+            if(item.isSelected)
+              Checkoutitem(product: item.product,quantity: item.Quantity,),
           SizedBox(height: 20,),
           Text(
             "Total Price: \$${total.toStringAsFixed(2)}",
@@ -210,6 +260,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
                           ),
                           SizedBox(height: 20,),
                           TextFormField(
+                            controller: _nameController,
                             keyboardType: TextInputType.datetime,
                             decoration: InputDecoration(
                               labelText: "your name on card",
@@ -233,6 +284,7 @@ class _CheckoutpageState extends State<Checkoutpage> {
                             children: [
                               Expanded(
                                 child: TextFormField(
+                                  controller: _cardNumberController,
                                   keyboardType: TextInputType.number,
                                   maxLength: 16,
                                   decoration: InputDecoration(
@@ -255,8 +307,9 @@ class _CheckoutpageState extends State<Checkoutpage> {
                               SizedBox(width: 5,),
                               Expanded(
                                 child: TextFormField(
+                                  controller: _cvvController,
                                   keyboardType: TextInputType.number,
-                                  maxLength: 4,
+                                  maxLength: 3,
                                   decoration: InputDecoration(
                                     labelText: "Cvv",
                                     hintText: "123",
@@ -327,8 +380,13 @@ class _CheckoutpageState extends State<Checkoutpage> {
                 if(_formKey.currentState!.validate() == false){
                   return;
                 }
+                _showCardConfirmDialog();
               }
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Receiptpage(total: total,),));
+              if(_mobileChecked){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Receiptpage(total: total,),));
+              }
+              
+              
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF6AC8FF),
@@ -346,3 +404,5 @@ class _CheckoutpageState extends State<Checkoutpage> {
     );
   }
 }
+
+

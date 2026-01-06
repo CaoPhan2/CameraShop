@@ -400,7 +400,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     )
                   ),
                   onPressed: () {
-                    // Add to cart action
+                    Cart().addToCart(widget.product);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Mycart(),));
                   },
                   child: Text('Buy Now'),
                 ),
